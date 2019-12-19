@@ -1,0 +1,65 @@
+syntax = "proto3";
+import "BaseRestEntity.proto";
+
+package erm.open;
+option java_multiple_files = true;
+option java_package = "com.usoft.erm.external.open.api.entity";
+
+//评级企业
+message RatingEnt {
+    int32 enuu = 1; //企业UU号
+    string entName = 2; //企业名称
+    string entBusinessCode = 3; //营业执照号
+    string ratingLevel = 4; //评级等级
+    double ratingScore = 5; //评级分数
+    string ratingTime = 6; //评级时间
+}
+
+//评级得分信息
+message RatingScore {
+    repeated RatingScoreCategory ratingCategory = 1; //评级得分分类
+    double score = 2; //评级得分
+    string level = 3; //评级等级
+}
+
+//评级得分分类
+message RatingScoreCategory {
+    string code = 1; //编号
+    string parentCode = 2; //父级编号
+    string name = 3; //名称
+    int32 number = 4; //顺序号
+    repeated RatingScoreCategory childCategory = 5; //子级分类列表,当子级分类列表为空时,指标列表才有值
+    repeated RatingScoreKpi ratingKpi = 6; //评级得分指标列表
+    double kpiScore = 7; //指标分数
+}
+//评级得分指标
+message RatingScoreKpi {
+    string code = 1; //编号
+    string categoryCode = 2; //分类编号
+    string name = 3; //名称
+    int32 number = 4; //顺序号
+    double score = 5; //分数
+    int32 ruleType = 6; //评分规则类型 1.全相等 2.范围区间
+    string dsName = 7; //数据源名称
+    string dsProperty = 8; //数据源属性,存在层级时,以英文点号分隔
+    repeated RatingScoreRule ratingRule = 9; //评级得分规则列表
+    string dsPropertyValue = 10; //数据源属性的值
+    RatingScoreRule hitRatingRule = 11; //命中的评级得分规则
+    double hitScore = 12; //命中规则的计算得分
+    string hitLimitLevel = 13; //命中规则的限定最高等级
+}
+//评级得分规则
+message RatingScoreRule {
+    string code = 1; //编号
+    string kpiCode = 2; //指标编号
+    string name = 3; //名称
+    int32 ruleType = 4; //评分规则类型 1.全相等 2.范围区间
+    string equalValue = 5; //全相等的值,默认按顺序1-2-3-4
+    int32 rangeLowType = 6; //低区间类型 1.开区间 2.闭区间
+    double rangeLow = 7; //低区间,以上.Int最在值 以下.Int最小值
+    int32 rangeHighType = 8; //高区间类型 1.开区间 2.闭区间
+    double rangeHigh = 9; //高区间,以上.Int最在值 以下.Int最小值
+    double scale = 10; //评分比例
+    double extScore = 11; //加减分数
+    string extLimitLevel = 12; //限定最高等级
+}

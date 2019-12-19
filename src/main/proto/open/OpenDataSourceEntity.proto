@@ -1,0 +1,388 @@
+syntax = "proto3";
+import "BaseRestEntity.proto";
+
+package erm.open;
+option java_multiple_files = true;
+option java_package = "com.usoft.erm.external.open.api.entity";
+
+//erp数据源返回数据信息
+message ErpReport {
+    repeated ErpPurchaseInfo  erpPurchase=1;
+    repeated ErpSaleInfo erpSale=2;
+    repeated ErpCashFlowInfo erpCashFlow=3;
+    repeated ErpBalanceSheetInfo erpBalanceSheet=4;
+    repeated ErpProfitInfo erpProfit=5;
+    repeated ErpCalculationOfEachIndex erpCalculationOfEachIndexYear=6;
+    repeated ErpCalculationOfEachIndex erpCalculationOfEachIndexLastYear=7;
+    repeated ErpCalculationOfEachIndex erpCalculationOfEachIndexBeforeYear=8;
+    repeated ErpCalculationOfEachIndex erpCalculationOfEachIndexBeforeLastYear=9;
+}
+
+//采购情况
+message ErpPurchaseInfo {
+    //年份
+    int32 year = 1;
+    //采购总额（万元）
+    double purchaseTotal = 2;
+    //采购总笔数
+    int32 purchaseNumberCount = 3;
+    //供应商数量（家）
+    int32 suppliersNumber = 4;
+    //前五大供应商
+    repeated ErpTopFiveSuppliersInfo topFiveSuppliers = 5;
+}
+//销售情况
+message ErpSaleInfo {
+    //年份
+    int32 year = 1;
+    //销售总额（万元）
+    double salesTotal = 2;
+    //增值税发票金额（万元）
+    double vatInvoiceAmount = 3;
+    //客户数量（家）
+    int32 customersCount = 4;
+    //前五大客户
+    repeated ErpTopFiveCustomersInfo  topFiveCustomers = 5;
+}
+//现金流量表
+message ErpCashFlowInfo {
+    //年份
+    int32 year = 1;
+    //经营活动产生的现金流量净额
+    double operatingCashFlow =2;
+    //投资活动产生的现金流量净额
+    double investmentCashFlow =3;
+    //筹资活动产生的现金流量净额
+    double financingCashFlow =4;
+    //现金及现金等价物净增加额
+    double netCashFlow =5;
+}
+//资产负债表
+message ErpBalanceSheetInfo {
+    //年份
+    int32 year = 1;
+    //存货
+    double stock =2;
+    //应收账款
+    double accountsReceivable =3;
+    //预付账款
+    double prepayments =4;
+    //1年内到期的非流动资产
+    double oneYearNonCurrentAssets =5;
+    //流动资产合计
+    double currentAssetsCount =6;
+    //固定资产
+    double fixedAssets =7;
+    //资产合计
+    double assetsCount =8;
+    //流动负债合计
+    double currentLiabilitiesCount =9;
+    //负债合计
+    double liabilitiesCount =10;
+    //所有者权益合计
+    double  ownersEquity =11;
+}
+//利润表
+message ErpProfitInfo {
+    //年份
+    int32 year =1;
+    //营业收入
+    double businessIncome =2;
+    //营业成本
+    double operatingCost =3;
+    //营业税金及附加
+    double salesTax =4;
+    //销售费用
+    double sellingCost =5;
+    //管理费用
+    double managementCost =6;
+    //财务费用
+    double financialCost =7;
+    //营业利润
+    double operatingProfit =8;
+    //净利润
+    double netProfit =9;
+}
+
+//前五大供应商
+message ErpTopFiveSuppliersInfo {
+    //名称
+    string nane=1;
+    //编号
+    string code=2;
+    //采购额（万元）
+    double amount=3;
+    //占总采购比例（%）
+    double purchaseTotalProportion=4;
+    //合作年限（年）
+    double cooperationYear=5;
+}
+//前五大客户
+message ErpTopFiveCustomersInfo {
+    //名称
+    string nane=1;
+    //编号
+    string code=2;
+    //销售额（万元）
+    double salesAmount=3;
+    //占总销售比例（%）
+    double salesTotalProportion=4;
+    //合作年限（年）
+    double cooperationYear=5;
+}
+//盈利能力指标、资产质量指标、债务风险指标、经营增长指标
+message ErpCalculationOfEachIndex {
+    //净资产周转率
+    double turnoverRateOfNetAssets = 1;
+    //总资产报酬率
+    double returnOnTotalAssets = 2;
+    //销售（营业）利润率
+    double salesProfitMargin = 3;
+    //总资产周转率（次）
+    double turnoverRateOfTotalAssets = 4;
+    //应收账款周转率（次）
+    double turnoverRateOfAccountsReceivable = 5;
+    //存货周转速度（次）
+    double inventoryTurnoverSpeed = 6;
+    //资产负债率（%）
+    double assetLiabilityRatio = 7;
+    //现金流动负债比率（%）
+    double cashFlowLiabilityRatio = 8;
+    //速动比率（%）
+    double quickRatio = 9;
+    //销售增长率（%）
+    double salesGrowthRate = 10;
+    //销售（营业）利润增长率（%）
+    double operatingProfitGrowthRate = 11;
+    //总资产增长率（%）
+    double growthRateOfTotalAssets = 12;
+}
+
+//b2b报告
+message B2bReport{
+    B2bSupplier supplier = 1;       //供应方
+    B2bPurchaser purchaser = 2;     //采购方
+}
+//企业作为供应方角色
+message B2bSupplier{
+    string code = 1; // b2b报告编号
+    string tradeSum = 2; // 历史交易数据一览表
+    string tradeCustHistory = 3; // 买方客户历史交易数据一览表
+    string tradeRecentYear = 4; // 近3年优软云平台交易数据一览表
+    string tradeRecentMonth = 5; // 近4个月月度交易数据一览表
+    int32 enuu = 6; // 企业uu号
+    string businessCode = 7; // 营业执照号(等同于统一社会信用代码,企业税号)
+    string enName = 8; // 企业名
+    string queryTime = 9; // 查询时间
+}
+
+//企业作为采购方角色
+message B2bPurchaser{
+    double sumPurchaseMoneyTotal = 2; //采购总额
+    double sumPurchaseNumTotal = 3; //采购总笔数
+    double sumPurchaseTimeTotal = 4; //采购总时间
+    B2bSumPurchaseMoney sumPurchaseMoneyRestInfo = 5; //采购金额
+    B2bSumPurchaseNum sumPurchaseNumRestInfo = 6; //采购笔数
+    repeated B2bHistoricalData historicalDataRestInfo = 7; //历史数据
+}
+
+//采购金额
+message B2bSumPurchaseMoney {
+    double sumYearMoney = 1; //当年采购金额
+    double sumOneYearMoney = 2; //前1年采购金额
+    double sumTwoYearMoney = 3; //前2年采购金额
+    double oneYearIncrease = 4; //前1年增幅比例
+    double yearIncrease = 5; //当年增幅比例
+}
+
+//采购笔数
+message B2bSumPurchaseNum {
+    double sumYearNum = 1; //当年采购笔数
+    double sumOneYearNum = 2; //前1年采购笔数
+    double sumTwoYearNum = 3; //前2年采购笔数
+    double oneYearIncrease = 4; //前1年增幅比例
+    double yearIncrease = 5; //当年增幅比例
+}
+
+//历史数据
+message B2bHistoricalData {
+    string enName = 1;      //供应商名称
+    double sumPurchaseMoney = 2; //累计采购金额
+    double sumPurchaseMoneyProportion = 3; //采购金额占比
+    double sumPurchaseNum = 4; //累计采购笔数
+    double sumPurchaseNumProportion = 5; //采购笔数占比
+    double sumPurchaseTime = 6; //累计采购时间
+}
+
+// 查询工商和信用报告
+message CrawlerReportList {
+    repeated CompanyJudgmentWrit companyJudgmentWrit = 7;                                   //法律诉讼判决文书
+    repeated CompanyLawByExecutePersonInfo companyLawByExecutePersonInfo = 8;               //被执行人信息
+    CompanyLawInfo companyLawInfo = 9;                                                      //企业法律诉讼信息
+    repeated CompanyOpenCourtNotice companyOpenCourtNotice = 12;                            //开庭公告
+    repeated CompanyPutOnRecordInfo companyPutOnRecordInfo = 14;                            //立案信息
+    repeated CompanyAdminPerChina companyAdminPerChina = 1;                                 //经营状况行政许可[信用中国]
+    CompanyManageRisk companyManageRisk = 11;                                               //经营风险
+    repeated CompanyCourtNoticeRest companyCourtNotice = 2;                                 //法律诉讼法院公告
+    CompanyIndustryAndCommerceInfoRest companyIndustryAndCommerceInfo = 16;                 //工商信息
+    CompanyBasicInfo companyBasicInfo = 17;                                                 //企业基础信息
+    string enuu = 18;                                                                       //enuu
+    string enName = 19;                                                                     //企业名称
+    string conTheTaxCredit = 20;                                                            //上一年度信用等级
+}
+
+//法律诉讼判决文书
+message CompanyJudgmentWrit{
+    string jubCaseName = 1;                        //判决文书案件名称
+    string jubCauseOfAction = 2;                   //判决文书案由
+    string jubCaseMoney = 3;                       //判决文书案件金额
+    string jubReleaseDate = 4;                     //判决文书发布日期
+    string jubCaseNumber = 5;                      //判决文书案号
+    string jubIdentity = 6;                        //判决文书身份
+    string jubExecutiveCourt = 7;                  //执行法院
+}
+
+message CompanyLawByExecutePersonInfo{
+    string byCaseNumber = 1;                        //被执行人信息案号
+    string byRegisterDate = 2;                      //被执行人信息立案日期
+    string byExecuteCourt = 3;                      //被执行人信息执行法院
+    string byExecuteObject = 4;                     //被执行人信息执行标的
+    string byExecutePerson = 5;                     //被执行人
+    string byIdNumber = 6;                          //身份证号/机构代码
+}
+
+message CompanyLawInfo{
+    string enName = 1;                              //企业名称
+    string enIntro = 2;                             //企业简介
+    string laBreakFaithExPer = 3;                   //失信被执行人
+    string laServiceNotice = 4;                     //送达公告
+    string laEquityFreezing = 5;                    //股权冻结
+}
+message CompanyOpenCourtNotice{
+    string openRecordNumber = 1;                    //开庭公告案号
+    string openTime = 2;                            //开庭公告开庭时间
+    string openCauseOfAction = 3;                   //开庭公告案由
+    string openAccuser = 4;                         //开庭公告公诉人/原告
+    string openAppellee = 5;                        //开庭公告被告人/被告
+    string openRegion = 6;                          //开庭公告地区
+    string openScheduleDate = 7;                    //开庭公告排期日期
+    string openUndertakeDepartment = 8;             //开庭公告承办部门
+    string openPresidingJudge = 9;                  //开庭公告审判长
+    string openThirdParty = 10;                     //开庭公告第三方人
+    string openCourt = 11;                          //开庭公告法院
+    string openTribunal = 12;                       //开庭公告法庭
+    string openContent = 13;                        //开庭公告公告内容
+}
+
+message CompanyPutOnRecordInfo{
+    string putCaseNumber = 1;                        //立案信息案号
+    string putDate = 2;                             //立案信息立案日期
+    string putPublicProsecutor = 3;                 //立案日期公诉人/原告
+    string putDefendant = 4;                        //立案日期被告人/被告
+    string putCaseCause = 5;                        //立案信息案由
+    string putOpenDate = 6;                         //立案信息开庭时间
+    string putFinishDate = 7;                       //立案信息结束时间
+    string putUndertakeDepartment = 8;              //立案信息承办部门
+    string putCourt = 9;                            //立案信息法院
+    string putUndertakeJudge = 10;                  //立案信息承办法官
+    string putJudgeAssistant = 11;                  //立案信息法官助理
+    string putCaseType = 12;                        //立案信息案件类型
+    string putCaseState = 13;                       //立案信息案件状态
+    string putThirdParty = 14;                      //立案信息第三人
+}
+
+message CompanyAdminPerChina{
+    string adminName = 1;                           //行政许可【信用中国】项目名称
+    string adminPermissionOffice = 2;               //行政许可【信用中国】许可机关
+    string adminDecisionNum = 3;                    //行政许可【信用中国】决定文书号
+    string adminDecisionDate = 4;                   //行政许可【信用中国】决定日期
+    string adminState = 5;                          //行政许可【信用中国】许可状态
+    string adminContent = 6;                        //行政许可【信用中国】许可内容
+    string adminExpirationDate = 7;                 //行政许可【信用中国】截止日期
+    string adminType = 8;                           //行政许可【信用中国】审批类别
+    string adminTerritory = 9;                      //行政许可【信用中国】地域
+}
+
+
+message CompanyManageRisk{
+    string manageAbnormalOut = 1;                       //经营异常[移出异常]
+    string manageAbnormalIn = 2;                        //经营异常【列入异常】
+    string severityBreakTheLaw = 3;                     //严重违法
+    string equityPledge = 4;                            //股权出质
+    string pledgeOfStockRight = 5;                      //股权质押
+    string administrativePenaltyIndustrial = 6;         //行政处罚[工商局]
+    string administrativePenaltyTax = 7;                //行政处罚【税务局】
+    string administrativePenaltyCredit = 8;             //行政处罚【信用中国】
+    string environmentalPenalties = 9;                  //环保处罚
+    string theTaxIllegal = 10;                          //税收违法
+    string chattelMortgage = 11;                        //动产抵押
+    string clearingInfo = 12;                           //清算信息
+    string judicialSale = 13;                           //司法拍卖
+    string landMortgage = 14;                           //土地抵押
+    string simpleCancellation = 15;                     //简易注销
+    string serviceByPublication = 16;                   //公示催告
+    int32 manageRiskEnId = 17;                          //欠税公告
+}
+
+message CompanyCourtNoticeRest{
+    string courtAppellor = 1;                           //法院公告上诉人
+    string courtByAppellor = 2;                         //法院公告被上诉人
+    string courtNoticeType = 3;                         //法院公告公告类型
+    string courtNoticePerson = 4;                       //法院公告公告人
+    string courtPublishDate = 5;                        //法院公告刊登日期
+    string courtPublishLayout = 6;                      //法院公告刊登版面
+    string courtUploadingDate = 7;                      //法院公告上传日期
+    string courtContent = 8;                            //法院公告内容
+}
+
+
+message CompanyIndustryAndCommerceInfoRest{
+    string legalRepresentative = 1;             //法定代表人
+    string registeredCapital = 2;               //注册资本
+    string contributedCapital = 3;              //实缴资本
+    string managementForms = 4;                 //经营状态
+    string setUpDate = 5;                       //成立日期
+    string unifiedSocialCreditCode = 6;         //统一社会信用代码
+    string identifyNumber = 7;                  //纳税人识别号
+    string registrationNumber = 8;              //注册号
+    string institutionalFrameworkCode = 9;      //组织机构代码
+    string enType = 10;                         //企业类型
+    string industryInvolved = 11;               //所属行业
+    string dateOfApproval = 12;                 //核准日期
+    string registrationAuthority = 13;          //登记机关
+    string areaName = 14;                       //所属地区
+    string englishName = 15;                    //英文名
+    string formerName = 16;                     //曾用名
+    string insuredNumberOfPeople = 17;          //参保人数
+    string staffSize = 18;                      //人员规模
+    string operatingPeriod = 19;                //营业期限
+    string enAddress = 20;                      //企业地址
+    string runScope = 21;                       //经营范围
+    string sponsor = 22;                        //举办单位
+    string fundingSource = 23;                  //经费来源
+}
+
+message CompanyBasicInfo{
+    string enuu = 1;      //原始的ENUU
+    string enCodeCrawled = 3;      //企业统一社会信用代码
+    string enTel = 4;      //企业联系电话
+    string enNameCrawled = 6;      //企业名称
+    string enEmail = 7;      //企业联系邮箱
+    string enType = 8;      //企业类型
+    string enLegalRepName = 9;      //法定代表人
+    string enRegCapital = 10;      //注册资本
+    string enRegDate = 11;      //成立日期
+    string enOpStartDate = 12;      //营业期限自
+    string enOpEndDate = 13;      //营业期限至
+    string enOpDate = 14;      //企业营业期限
+    string enRegCode = 15;      //企业注册号
+    string enRegUnit = 16;      //登记机关
+    string enRegStatus = 17;      //登记状态
+    string enVarifyDate = 18;      //核准日期
+    string enRegLocation = 19;      //登记住所
+    string enOpRange = 20;      //登记经营范围
+    string enSourceLink = 21;      //企业信息网站
+    string enShareholders = 22;      //企业股东信息
+    string enKeyPersonnel = 23;      //企业主要人员
+    string enChangingRecords = 24;      //企业变更记录
+}

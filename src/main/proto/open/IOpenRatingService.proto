@@ -1,0 +1,25 @@
+syntax = "proto3";
+import "BaseRestEntity.proto";
+import "open/OpenRatingEntity.proto";
+package erm.open;
+option java_multiple_files = true;
+option java_package = "com.usoft.erm.external.open.api.protobuf";
+option java_outer_classname = "IOpenRatingServiceProto";
+
+service IOpenRatingService {
+    //查询企业评级-restAPI /api/open/erm/rating/ent/get, method:get, type:kv
+    rpc getRatingEnt (GetRatingEntReq) returns (GetRatingEntResp);
+}
+
+//查询企业评级 请求参数
+message GetRatingEntReq {
+    string signature = 1; //请求参数签名,（GET KV：K1=V2&K2=V2 ; POST JSON: {"K1":"V1","K2":"V2",signature:""}）
+    string secretId = 2; //秘密身份ID
+    int32 enuu = 3; //企业uu号
+}
+//查询企业评级 响应参数
+message GetRatingEntResp {
+    RespHeader respHeader = 1; // 响应头信息
+    RatingEnt ratingEnt = 2; //评级企业
+    RatingScore ratingScore = 3; //评级得分信息
+}

@@ -1,0 +1,54 @@
+syntax = "proto3";
+import "BaseRestEntity.proto";
+import "open/OpenDataSourceEntity.proto";
+package erm.open;
+option java_multiple_files = true;
+option java_package = "com.usoft.erm.external.open.api.protobuf";
+option java_outer_classname = "IOpenDataSourceServiceProto";
+
+service IOpenDataSourceService {
+    // 查询erp报告-restAPI /api/open/erp/ent/get, method:get, type:kv
+    rpc getErpReportByCode (GetErpReportByCodeReq) returns (GetErpReportByCodeResp);
+    // 查询b2b报告-restAPI /api/open/b2b/ent/get, method:get, type:kv
+    rpc getB2bReportByCode (GetB2bReportByCodeReq) returns (GetB2bReportByCodeResp);
+    // 查询工商和信用报告-restAPI /api/open/b2b/ent/get, method:get, type:kv
+    rpc getCrawlerReportByCode (GetCrawlerReportByCodeReq) returns (GetCrawlerReportByCodeResp);
+}
+
+// 获取erp报告请求信息
+message GetErpReportByCodeReq {
+    string signature = 1; //请求参数签名,（GET KV：K1=V2&K2=V2 ; POST JSON: {"K1":"V1","K2":"V2",signature:""}）
+    string secretId = 2; //秘密身份ID
+    int32 enuu = 3; // 企业uu
+}
+// 获取erp报告响应信息
+message GetErpReportByCodeResp {
+    RespHeader respHeader = 1; // 响应头信息
+    ErpReport erpReportRestInfo = 2; // erp报告
+}
+
+//查询b2b报告
+message GetB2bReportByCodeReq{
+    string signature = 1; //请求参数签名,（GET KV：K1=V2&K2=V2 ; POST JSON: {"K1":"V1","K2":"V2",signature:""}）
+    string secretId = 2; //秘密身份ID
+    int32 enuu = 3; // 企业uu
+}
+
+//查询b2b报告
+message GetB2bReportByCodeResp{
+    RespHeader respHeader = 1; // 响应头信息
+    B2bReport b2bReport = 2;   //b2b报告
+}
+
+//查询工商和信用报告
+message GetCrawlerReportByCodeReq{
+    string signature = 1; //请求参数签名,（GET KV：K1=V2&K2=V2 ; POST JSON: {"K1":"V1","K2":"V2",signature:""}）
+    string secretId = 2; //秘密身份ID
+    int32 enuu = 3; // 企业uu
+}
+
+//查询工商和信用报告
+message GetCrawlerReportByCodeResp{
+    RespHeader respHeader = 1; // 响应头信息
+    CrawlerReportList CrawlerReportList = 2;        //企业数据集合实体
+}

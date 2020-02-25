@@ -38,7 +38,7 @@ public class DataSourceSdkTest {
     @Test
     public void getCrawlerReportByCode() throws Exception {
         GetCrawlerReportByCodeReq.Builder req = GetCrawlerReportByCodeReq.newBuilder();
-        req.setEnuu(10000666);
+        req.setEnuu(10030538);
         GetCrawlerReportByCodeResp resp = dataSourceSdk.getCrawlerReportByCode(req);
         System.out.println(ProtoBufUtil.toJSON(resp));
     }
